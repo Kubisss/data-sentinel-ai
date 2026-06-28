@@ -6,6 +6,7 @@ import pandas as pd
 from data_sentinel.profiling import profile_dataframe
 from data_sentinel.loaders import load_csv
 from data_sentinel.validation import validate_required_columns, validate_not_null_columns
+from data_sentinel.reporting import summarize_validation_results
 
 
 def main():
@@ -20,9 +21,13 @@ def main():
         validate_not_null_columns(df, ["id", "name", "email"]),
     ]
 
+    summary = summarize_validation_results(validation_results)
+
     final_report = {
+        "input_file": input_file,
         "profile": profile_report,
         "validations": validation_results,
+        "summary": summary,
     }
 
     os.makedirs("reports", exist_ok=True)
