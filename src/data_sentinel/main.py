@@ -7,6 +7,7 @@ from data_sentinel.profiling import profile_dataframe
 from data_sentinel.loaders import load_csv
 from data_sentinel.validation import validate_required_columns, validate_not_null_columns
 from data_sentinel.reporting import summarize_validation_results
+from data_sentinel.renderers import render_markdown_report
 
 
 def main():
@@ -33,6 +34,11 @@ def main():
     os.makedirs("reports", exist_ok=True)
     with open(output_file, "w", encoding="utf-8") as file:
         json.dump(final_report, file, indent=4, ensure_ascii=False)
+
+    markdown_report = render_markdown_report(final_report)
+
+    with open("reports/profile_report.md", "w", encoding="utf-8") as file:
+        file.write(markdown_report)
 
     print(f"Report generated successfully at: {output_file}")
 
