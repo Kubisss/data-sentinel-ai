@@ -8,7 +8,11 @@ def summarize_validation_results(validation_results):
     failed_checks_count = len(failed_checks)
     passed_checks = total_checks - failed_checks_count
 
-    quality_score = round((passed_checks / total_checks) * 100, 2)
+    quality_score = (
+    round((passed_checks / total_checks) * 100, 2)
+    if total_checks > 0
+    else 0
+)
 
     return {
         "overall_status": "passed" if len(failed_checks) == 0 else "failed",
