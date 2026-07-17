@@ -15,7 +15,7 @@ def validate_not_null_columns(df, columns):
         for column, count in null_counts.items()
         if count > 0
     }
-
+    
     return {
         "check_name": "not_null_columns",
         "passed": len(columns_with_nulls) == 0,

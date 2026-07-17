@@ -31,15 +31,32 @@ def render_markdown_report(report):
         lines.append(f"| {column} | {count} |")
 
     lines.extend([
-        "",
-        "## Validation results",
-        "",
-        "| Check | Status |",
-        "|---|---|",
+    "",
+    "## Validation results",
+    "",
+    "| Check | Status | Details |",
+    "|---|---|---|",
     ])
 
     for validation in validations:
         status = "passed ✅" if validation["passed"] else "failed ❌"
-        lines.append(f"| {validation['check_name']} | {status} |")
+        details = ""
+
+        if validation["check_name"] == "not_null_columns" and not validation["passed"]:
+            columns_with_nulls = validation["columns_with_nulls"]
+
+            details = ", ".join(
+                f"{column} ({count} nulls)"
+                for column, count in columns_with_nulls.items()
+            )
+
+        elif validation["check_name"] == "required_columns" and not validation["passed"]:
+            missing_columns = validation["missing_columns"]
+
+            details = "Missing columns: " + ", ".join(missing_columns)
+
+        lines.append(
+            f"| {validation['check_name']} | {status} | {details} |"
+        )
 
     return "\n".join(lines)
