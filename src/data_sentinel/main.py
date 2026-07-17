@@ -18,7 +18,7 @@ def main():
 
     validation_results = [
         validate_required_columns(df, ["id", "name", "age", "city", "email"]),
-        validate_not_null_columns(df, ["id", "name", "email"]),
+        validate_not_null_columns(df, ["id", "age", "name", "email"]),
     ]
 
     summary = summarize_validation_results(validation_results)
