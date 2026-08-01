@@ -9,6 +9,7 @@ from data_sentinel.validation import validate_required_columns, validate_not_nul
 from data_sentinel.reporting import summarize_validation_results
 from data_sentinel.renderers import render_markdown_report
 from data_sentinel.charts import generate_null_counts_chart
+from data_sentinel.renderers import render_markdown_report, render_html_report
 
 
 def main():
@@ -39,11 +40,17 @@ def main():
         json.dump(final_report, file, indent=4, ensure_ascii=False)
 
     markdown_report = render_markdown_report(final_report)
+    html_report = render_html_report(final_report)
 
     with open("reports/profile_report.md", "w", encoding="utf-8") as file:
         file.write(markdown_report)
 
-    print(f"Report generated successfully at: {output_file}")
+    with open("reports/profile_report.html", "w", encoding="utf-8") as file:
+        file.write(html_report)
+
+    print(f"JSON report generated at: {output_file}")
+    print(f"Markdown report generated at: reports/profile_report.md")
+    print(f"HTML report generated at: reports/profile_report.html")
 
 if __name__ == "__main__":
     main()

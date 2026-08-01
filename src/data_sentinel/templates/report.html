@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Quality Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            color: #222;
+        }
+
+        .summary {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            min-width: 140px;
+        }
+
+        .passed {
+            color: green;
+            font-weight: bold;
+        }
+
+        .failed {
+            color: red;
+            font-weight: bold;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background: #f5f5f5;
+            text-align: left;
+        }
+
+        img {
+            max-width: 800px;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Quality Report</h1>
+
+    <p><strong>Input file:</strong> {{ report.input_file }}</p>
+
+    <h2>Summary</h2>
+
+    <div class="summary">
+        <div class="card">
+            <strong>Status</strong><br>
+            <span class="{{ report.summary.overall_status }}">
+                {{ report.summary.overall_status }}
+            </span>
+        </div>
+
+        <div class="card">
+            <strong>Quality score</strong><br>
+            {{ report.summary.quality_score }}%
+        </div>
+
+        <div class="card">
+            <strong>Checks</strong><br>
+            {{ report.summary.passed_checks }} / {{ report.summary.total_checks }} passed
+        </div>
+    </div>
+
+    <h2>Dataset profile</h2>
+
+    <ul>
+        <li>Rows: {{ report.profile.num_rows }}</li>
+        <li>Columns: {{ report.profile.num_columns }}</li>
+    </ul>
+
+    <h2>Null counts</h2>
+
+    <table>
+        <tr>
+            <th>Column</th>
+            <th>Null count</th>
+        </tr>
+        {% for column, count in report.profile.null_counts_per_column.items() %}
+        <tr>
+            <td>{{ column }}</td>
+            <td>{{ count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Null counts chart</h2>
+
+    <img src="charts/null_counts.png" alt="Null counts chart">
+
+    <h2>Validation results</h2>
+
+    <table>
+        <tr>
+            <th>Check</th>
+            <th>Status</th>
+            <th>Details</th>
+        </tr>
+        {% for validation in report.validations %}
+        <tr>
+            <td>{{ validation.check_name }}</td>
+            <td>
+                {% if validation.passed %}
+                    <span class="passed">passed ✅</span>
+                {% else %}
+                    <span class="failed">failed ❌</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if validation.columns_with_nulls %}
+                    {{ validation.columns_with_nulls }}
+                {% elif validation.missing_columns %}
+                    Missing columns: {{ validation.missing_columns }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

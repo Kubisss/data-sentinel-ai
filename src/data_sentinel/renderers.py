@@ -1,3 +1,7 @@
+from pathlib import Path
+
+from jinja2 import Environment, FileSystemLoader
+
 def render_markdown_report(report):
     summary = report["summary"]
     profile = report["profile"]
@@ -67,3 +71,15 @@ def render_markdown_report(report):
         )
 
     return "\n".join(lines)
+
+
+def render_html_report(report):
+    templates_dir = Path(__file__).parent / "templates"
+
+    environment = Environment(
+        loader=FileSystemLoader(templates_dir)
+    )
+
+    template = environment.get_template("report.html")
+
+    return template.render(report=report)
