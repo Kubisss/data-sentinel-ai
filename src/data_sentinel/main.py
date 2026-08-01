@@ -10,23 +10,27 @@ from data_sentinel.reporting import summarize_validation_results
 from data_sentinel.renderers import render_markdown_report
 from data_sentinel.charts import generate_null_counts_chart
 from data_sentinel.renderers import render_markdown_report, render_html_report
+from data_sentinel.config import load_json_config
 
 
 def main():
-    input_file = "data/sample/customers.csv"
+    schema = load_json_config("config/customers_schema.json")
+
+    input_file = schema["input_file"]
     output_file = "reports/profile_report.json"
 
     df = load_csv(input_file)
     profile_report = profile_dataframe(df)
 
     validation_results = [
-        validate_required_columns(df, ["id", "name", "age", "city", "email"]),
-        validate_not_null_columns(df, ["id", "age", "name", "email"]),
+        validate_required_columns(df, schema["required_columns"]),
+        validate_not_null_columns(df, schema["not_null_columns"]),
     ]
 
     summary = summarize_validation_results(validation_results)
 
     final_report = {
+        "dataset_name": schema["dataset_name"],
         "input_file": input_file,
         "profile": profile_report,
         "validations": validation_results,

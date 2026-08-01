@@ -1,0 +1,6 @@
+{
+    "dataset_name": "customers",
+    "input_file": "data/sample/customers.csv",
+    "required_columns": ["id", "name", "age", "city", "email"],
+    "not_null_columns": ["id", "name", "age", "email"]
+}
