@@ -8,6 +8,7 @@ from data_sentinel.loaders import load_csv
 from data_sentinel.validation import validate_required_columns, validate_not_null_columns
 from data_sentinel.reporting import summarize_validation_results
 from data_sentinel.renderers import render_markdown_report
+from data_sentinel.charts import generate_null_counts_chart
 
 
 def main():
@@ -30,6 +31,8 @@ def main():
         "validations": validation_results,
         "summary": summary,
     }
+    
+    generate_null_counts_chart(profile_report["null_counts_per_column"],"reports/charts/null_counts.png")
 
     os.makedirs("reports", exist_ok=True)
     with open(output_file, "w", encoding="utf-8") as file:

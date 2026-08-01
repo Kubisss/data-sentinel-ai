@@ -32,6 +32,13 @@ def render_markdown_report(report):
 
     lines.extend([
     "",
+    "## Null counts chart",
+    "",
+    "![Null counts](charts/null_counts.png)",
+    ])
+
+    lines.extend([
+    "",
     "## Validation results",
     "",
     "| Check | Status | Details |",
