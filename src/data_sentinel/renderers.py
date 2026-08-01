@@ -31,6 +31,19 @@ def render_markdown_report(report):
         "|---|---:|",
     ]
 
+    lines.extend([
+        "",
+        "## Insights",
+        "",
+    ])
+
+    for insight in report.get("insights", []):
+        lines.append(f"- {insight}")
+
+    lines.extend([
+            "",
+        ])
+
     for column, count in profile["null_counts_per_column"].items():
         lines.append(f"| {column} | {count} |")
 

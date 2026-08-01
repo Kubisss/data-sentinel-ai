@@ -82,6 +82,14 @@
         </div>
     </div>
 
+    <h2>Insights</h2>
+
+    <ul>
+        {% for insight in report.insights %}
+        <li>{{ insight }}</li>
+        {% endfor %}
+    </ul>
+    
     <h2>Dataset profile</h2>
 
     <ul>
