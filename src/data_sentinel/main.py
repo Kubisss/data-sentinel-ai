@@ -12,6 +12,7 @@ from data_sentinel.charts import generate_null_counts_chart
 from data_sentinel.renderers import render_markdown_report, render_html_report
 from data_sentinel.config import load_json_config
 from data_sentinel.insights import generate_insights
+from data_sentinel.agents import generate_ai_summary
 
 
 def main():
@@ -39,6 +40,7 @@ def main():
     }
     
     final_report["insights"] = generate_insights(final_report)
+    final_report["ai_summary"] = generate_ai_summary(final_report)
 
     generate_null_counts_chart(profile_report["null_counts_per_column"],"reports/charts/null_counts.png")
 

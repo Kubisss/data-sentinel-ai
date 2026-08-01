@@ -90,6 +90,22 @@
         {% endfor %}
     </ul>
     
+    {% if report.ai_summary %}
+    <h2>AI Summary</h2>
+
+    <h3>{{ report.ai_summary.title }}</h3>
+
+    <p>{{ report.ai_summary.summary }}</p>
+
+    <h3>Recommendations</h3>
+
+    <ul>
+        {% for recommendation in report.ai_summary.recommendations %}
+        <li>{{ recommendation }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     <h2>Dataset profile</h2>
 
     <ul>

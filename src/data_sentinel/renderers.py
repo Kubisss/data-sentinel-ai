@@ -43,7 +43,29 @@ def render_markdown_report(report):
     lines.extend([
             "",
         ])
+    
+    ai_summary = report.get("ai_summary")
 
+    if ai_summary:
+        lines.extend([
+            "",
+            "## AI Summary",
+            "",
+            f"### {ai_summary['title']}",
+            "",
+            ai_summary["summary"],
+            "",
+            "### Recommendations",
+            "",
+        ])
+
+        for recommendation in ai_summary["recommendations"]:
+            lines.append(f"- {recommendation}")
+
+    lines.extend([
+            "",
+        ])
+    
     for column, count in profile["null_counts_per_column"].items():
         lines.append(f"| {column} | {count} |")
 
