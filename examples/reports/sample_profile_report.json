@@ -1,0 +1,77 @@
+{
+    "dataset_name": "customers",
+    "input_file": "data/sample/customers.csv",
+    "profile": {
+        "num_rows": 5,
+        "num_columns": 5,
+        "column_names": [
+            "id",
+            "name",
+            "age",
+            "city",
+            "email"
+        ],
+        "null_counts_per_column": {
+            "id": 0,
+            "name": 0,
+            "age": 1,
+            "city": 0,
+            "email": 0
+        },
+        "duplicate_rows": 0,
+        "data_types": {
+            "id": "int64",
+            "name": "str",
+            "age": "float64",
+            "city": "str",
+            "email": "str"
+        }
+    },
+    "validations": [
+        {
+            "check_name": "required_columns",
+            "passed": true,
+            "missing_columns": []
+        },
+        {
+            "check_name": "not_null_columns",
+            "passed": false,
+            "columns_with_nulls": {
+                "age": 1
+            }
+        }
+    ],
+    "summary": {
+        "overall_status": "failed",
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1,
+        "failed_check_names": [
+            "not_null_columns"
+        ],
+        "quality_score": 50.0
+    },
+    "insights": [
+        "Dataset contains 5 rows and 5 columns.",
+        "Overall quality score is 50.0%.",
+        "1 validation check(s) failed.",
+        "Check 'not_null_columns' failed.",
+        "Column 'age' contains 1 null value(s)."
+    ],
+    "ai_summary": {
+        "title": "Dataset quality summary",
+        "summary": "The dataset failed 1 validation check(s). Failed checks: not_null_columns. These issues should be reviewed before using the dataset in production analytics.",
+        "recommendations": [
+            "Review failed validation checks.",
+            "Investigate affected columns in the source data.",
+            "Consider adding stricter checks to the ingestion pipeline."
+        ],
+        "source_insights": [
+            "Dataset contains 5 rows and 5 columns.",
+            "Overall quality score is 50.0%.",
+            "1 validation check(s) failed.",
+            "Check 'not_null_columns' failed.",
+            "Column 'age' contains 1 null value(s)."
+        ]
+    }
+}

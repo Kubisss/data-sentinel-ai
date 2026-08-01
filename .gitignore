@@ -28,5 +28,5 @@ Thumbs.db
 *.log
 
 # reports
-reports/
+/reports/
 data/raw/

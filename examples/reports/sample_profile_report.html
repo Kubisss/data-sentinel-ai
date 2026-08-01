@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Quality Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            color: #222;
+        }
+
+        .summary {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            min-width: 140px;
+        }
+
+        .passed {
+            color: green;
+            font-weight: bold;
+        }
+
+        .failed {
+            color: red;
+            font-weight: bold;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background: #f5f5f5;
+            text-align: left;
+        }
+
+        img {
+            max-width: 800px;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Quality Report</h1>
+
+    <p><strong>Input file:</strong> data/sample/customers.csv</p>
+
+    <h2>Summary</h2>
+
+    <div class="summary">
+        <div class="card">
+            <strong>Status</strong><br>
+            <span class="failed">
+                failed
+            </span>
+        </div>
+
+        <div class="card">
+            <strong>Quality score</strong><br>
+            50.0%
+        </div>
+
+        <div class="card">
+            <strong>Checks</strong><br>
+            1 / 2 passed
+        </div>
+    </div>
+
+    <h2>Insights</h2>
+
+    <ul>
+        
+        <li>Dataset contains 5 rows and 5 columns.</li>
+        
+        <li>Overall quality score is 50.0%.</li>
+        
+        <li>1 validation check(s) failed.</li>
+        
+        <li>Check 'not_null_columns' failed.</li>
+        
+        <li>Column 'age' contains 1 null value(s).</li>
+        
+    </ul>
+    
+    
+    <h2>AI Summary</h2>
+
+    <h3>Dataset quality summary</h3>
+
+    <p>The dataset failed 1 validation check(s). Failed checks: not_null_columns. These issues should be reviewed before using the dataset in production analytics.</p>
+
+    <h3>Recommendations</h3>
+
+    <ul>
+        
+        <li>Review failed validation checks.</li>
+        
+        <li>Investigate affected columns in the source data.</li>
+        
+        <li>Consider adding stricter checks to the ingestion pipeline.</li>
+        
+    </ul>
+    
+
+    <h2>Dataset profile</h2>
+
+    <ul>
+        <li>Rows: 5</li>
+        <li>Columns: 5</li>
+    </ul>
+
+    <h2>Null counts</h2>
+
+    <table>
+        <tr>
+            <th>Column</th>
+            <th>Null count</th>
+        </tr>
+        
+        <tr>
+            <td>id</td>
+            <td>0</td>
+        </tr>
+        
+        <tr>
+            <td>name</td>
+            <td>0</td>
+        </tr>
+        
+        <tr>
+            <td>age</td>
+            <td>1</td>
+        </tr>
+        
+        <tr>
+            <td>city</td>
+            <td>0</td>
+        </tr>
+        
+        <tr>
+            <td>email</td>
+            <td>0</td>
+        </tr>
+        
+    </table>
+
+    <h2>Null counts chart</h2>
+
+    <img src="charts/null_counts.png" alt="Null counts chart">
+
+    <h2>Validation results</h2>
+
+    <table>
+        <tr>
+            <th>Check</th>
+            <th>Status</th>
+            <th>Details</th>
+        </tr>
+        
+        <tr>
+            <td>required_columns</td>
+            <td>
+                
+                    <span class="passed">passed ✅</span>
+                
+            </td>
+            <td>
+                
+                    -
+                
+            </td>
+        </tr>
+        
+        <tr>
+            <td>not_null_columns</td>
+            <td>
+                
+                    <span class="failed">failed ❌</span>
+                
+            </td>
+            <td>
+                
+                    {'age': 1}
+                
+            </td>
+        </tr>
+        
+    </table>
+</body>
+</html>
