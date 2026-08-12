@@ -1,3 +1,5 @@
+from data_sentinel.llm import generate_llm_summary, is_llm_enabled
+
 def generate_ai_summary(report: dict) -> dict:
     summary = report["summary"]
     insights = report.get("insights", [])
@@ -33,3 +35,19 @@ def generate_ai_summary(report: dict) -> dict:
         "recommendations": recommendations,
         "source_insights": insights,
     }
+
+
+
+def generate_summary_with_fallback(report: dict) -> dict:
+    if not is_llm_enabled():
+        fallback_summary = generate_ai_summary(report)
+        fallback_summary["provider"] = "rule_based"
+        return fallback_summary
+
+    try:
+        return generate_llm_summary(report)
+    except Exception as error:
+        fallback_summary = generate_ai_summary(report)
+        fallback_summary["provider"] = "rule_based"
+        fallback_summary["fallback_reason"] = str(error)
+        return fallback_summary

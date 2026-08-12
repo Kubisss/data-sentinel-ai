@@ -1,4 +1,4 @@
-from data_sentinel.agents import generate_ai_summary
+from data_sentinel.agents import generate_ai_summary, generate_summary_with_fallback
 
 
 def test_generate_ai_summary_returns_positive_summary_when_report_passed():
@@ -37,3 +37,22 @@ def test_generate_ai_summary_mentions_failed_checks_when_report_failed():
     assert "failed 1 validation check" in result["summary"]
     assert "not_null_columns" in result["summary"]
     assert len(result["recommendations"]) > 0
+
+def test_generate_summary_with_fallback_uses_rule_based_when_llm_disabled(monkeypatch):
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+
+    report = {
+        "summary": {
+            "overall_status": "passed",
+            "failed_checks": 0,
+            "failed_check_names": [],
+        },
+        "insights": [
+            "All validation checks passed."
+        ],
+    }
+
+    result = generate_summary_with_fallback(report)
+
+    assert result["provider"] == "rule_based"
+    assert "passed" in result["summary"]
