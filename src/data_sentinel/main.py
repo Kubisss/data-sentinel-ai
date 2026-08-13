@@ -21,14 +21,19 @@ def main():
     input_file = schema["input_file"]
     output_file = "reports/profile_report.json"
 
+    print("Loading data...")
     df = load_csv(input_file)
+
+    print("Profiling data...")
     profile_report = profile_dataframe(df)
 
+    print("Running validations...")
     validation_results = [
         validate_required_columns(df, schema["required_columns"]),
         validate_not_null_columns(df, schema["not_null_columns"]),
     ]
 
+    print("Generating summary...")
     summary = summarize_validation_results(validation_results)
 
     final_report = {
@@ -38,12 +43,17 @@ def main():
         "validations": validation_results,
         "summary": summary,
     }
-    
+
+    print("Generating insights...")
     final_report["insights"] = generate_insights(final_report)
+
+    print("Generating AI summary...")
     final_report["ai_summary"] = generate_summary_with_fallback(final_report)
 
+    print("Generating null counts chart...")
     generate_null_counts_chart(profile_report["null_counts_per_column"],"reports/charts/null_counts.png")
 
+    print("Rendering reports...")
     os.makedirs("reports", exist_ok=True)
     with open(output_file, "w", encoding="utf-8") as file:
         json.dump(final_report, file, indent=4, ensure_ascii=False)

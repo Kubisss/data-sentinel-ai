@@ -39,7 +39,10 @@ def test_generate_ai_summary_mentions_failed_checks_when_report_failed():
     assert len(result["recommendations"]) > 0
 
 def test_generate_summary_with_fallback_uses_rule_based_when_llm_disabled(monkeypatch):
-    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    monkeypatch.setattr(
+        "data_sentinel.agents.is_llm_enabled",
+        lambda: False
+    )
 
     report = {
         "summary": {
