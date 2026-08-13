@@ -13,6 +13,7 @@ from data_sentinel.renderers import render_markdown_report, render_html_report
 from data_sentinel.config import load_json_config
 from data_sentinel.insights import generate_insights
 from data_sentinel.agents import generate_summary_with_fallback
+from data_sentinel.pdf import render_pdf_report
 
 
 def main():
@@ -66,6 +67,12 @@ def main():
 
     with open("reports/profile_report.html", "w", encoding="utf-8") as file:
         file.write(html_report)
+
+    print("PDF report generated at: reports/profile_report.pdf")
+    render_pdf_report(
+    html_path="reports/profile_report.html",
+    output_path="reports/profile_report.pdf",
+    )
 
     print(f"JSON report generated at: {output_file}")
     print(f"Markdown report generated at: reports/profile_report.md")
