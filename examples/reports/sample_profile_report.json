@@ -1,30 +1,42 @@
 {
-    "dataset_name": "customers",
-    "input_file": "data/sample/customers.csv",
+    "dataset_name": "large_dirty_customers",
+    "input_file": "data/sample/customers_large_dirty.csv",
     "profile": {
-        "num_rows": 5,
-        "num_columns": 5,
+        "num_rows": 20008,
+        "num_columns": 9,
         "column_names": [
             "id",
             "name",
             "age",
             "city",
-            "email"
+            "email",
+            "signup_date",
+            "customer_segment",
+            "monthly_spend",
+            "is_active"
         ],
         "null_counts_per_column": {
             "id": 0,
-            "name": 0,
-            "age": 1,
-            "city": 0,
-            "email": 0
+            "name": 79,
+            "age": 100,
+            "city": 64,
+            "email": 145,
+            "signup_date": 0,
+            "customer_segment": 0,
+            "monthly_spend": 0,
+            "is_active": 0
         },
-        "duplicate_rows": 0,
+        "duplicate_rows": 8,
         "data_types": {
             "id": "int64",
             "name": "str",
             "age": "float64",
             "city": "str",
-            "email": "str"
+            "email": "str",
+            "signup_date": "str",
+            "customer_segment": "str",
+            "monthly_spend": "float64",
+            "is_active": "bool"
         }
     },
     "validations": [
@@ -37,7 +49,8 @@
             "check_name": "not_null_columns",
             "passed": false,
             "columns_with_nulls": {
-                "age": 1
+                "name": 79,
+                "email": 145
             }
         }
     ],
@@ -52,11 +65,12 @@
         "quality_score": 50.0
     },
     "insights": [
-        "Dataset contains 5 rows and 5 columns.",
+        "Dataset contains 20008 rows and 9 columns.",
         "Overall quality score is 50.0%.",
         "1 validation check(s) failed.",
         "Check 'not_null_columns' failed.",
-        "Column 'age' contains 1 null value(s)."
+        "Column 'name' contains 79 null value(s).",
+        "Column 'email' contains 145 null value(s)."
     ],
     "ai_summary": {
         "title": "Dataset quality summary",
@@ -67,11 +81,14 @@
             "Consider adding stricter checks to the ingestion pipeline."
         ],
         "source_insights": [
-            "Dataset contains 5 rows and 5 columns.",
+            "Dataset contains 20008 rows and 9 columns.",
             "Overall quality score is 50.0%.",
             "1 validation check(s) failed.",
             "Check 'not_null_columns' failed.",
-            "Column 'age' contains 1 null value(s)."
-        ]
+            "Column 'name' contains 79 null value(s).",
+            "Column 'email' contains 145 null value(s)."
+        ],
+        "provider": "rule_based",
+        "fallback_reason": "503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}"
     }
 }

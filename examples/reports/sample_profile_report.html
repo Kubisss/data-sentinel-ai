@@ -59,7 +59,7 @@
 <body>
     <h1>Data Quality Report</h1>
 
-    <p><strong>Input file:</strong> data/sample/customers.csv</p>
+    <p><strong>Input file:</strong> data/sample/customers_large_dirty.csv</p>
 
     <h2>Summary</h2>
 
@@ -86,7 +86,7 @@
 
     <ul>
         
-        <li>Dataset contains 5 rows and 5 columns.</li>
+        <li>Dataset contains 20008 rows and 9 columns.</li>
         
         <li>Overall quality score is 50.0%.</li>
         
@@ -94,7 +94,9 @@
         
         <li>Check 'not_null_columns' failed.</li>
         
-        <li>Column 'age' contains 1 null value(s).</li>
+        <li>Column 'name' contains 79 null value(s).</li>
+        
+        <li>Column 'email' contains 145 null value(s).</li>
         
     </ul>
     
@@ -121,8 +123,8 @@
     <h2>Dataset profile</h2>
 
     <ul>
-        <li>Rows: 5</li>
-        <li>Columns: 5</li>
+        <li>Rows: 20008</li>
+        <li>Columns: 9</li>
     </ul>
 
     <h2>Null counts</h2>
@@ -140,21 +142,41 @@
         
         <tr>
             <td>name</td>
-            <td>0</td>
+            <td>79</td>
         </tr>
         
         <tr>
             <td>age</td>
-            <td>1</td>
+            <td>100</td>
         </tr>
         
         <tr>
             <td>city</td>
-            <td>0</td>
+            <td>64</td>
         </tr>
         
         <tr>
             <td>email</td>
+            <td>145</td>
+        </tr>
+        
+        <tr>
+            <td>signup_date</td>
+            <td>0</td>
+        </tr>
+        
+        <tr>
+            <td>customer_segment</td>
+            <td>0</td>
+        </tr>
+        
+        <tr>
+            <td>monthly_spend</td>
+            <td>0</td>
+        </tr>
+        
+        <tr>
+            <td>is_active</td>
             <td>0</td>
         </tr>
         
@@ -196,7 +218,7 @@
             </td>
             <td>
                 
-                    {'age': 1}
+                    {'name': 79, 'email': 145}
                 
             </td>
         </tr>

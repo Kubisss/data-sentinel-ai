@@ -1,6 +1,6 @@
 # Data Quality Report
 
-Input file: `data/sample/customers.csv`
+Input file: `data/sample/customers_large_dirty.csv`
 
 ## Summary
 
@@ -12,8 +12,8 @@ Input file: `data/sample/customers.csv`
 
 ## Dataset profile
 
-- Rows: 5
-- Columns: 5
+- Rows: 20008
+- Columns: 9
 
 ## Null counts
 
@@ -22,11 +22,12 @@ Input file: `data/sample/customers.csv`
 
 ## Insights
 
-- Dataset contains 5 rows and 5 columns.
+- Dataset contains 20008 rows and 9 columns.
 - Overall quality score is 50.0%.
 - 1 validation check(s) failed.
 - Check 'not_null_columns' failed.
-- Column 'age' contains 1 null value(s).
+- Column 'name' contains 79 null value(s).
+- Column 'email' contains 145 null value(s).
 
 
 ## AI Summary
@@ -42,10 +43,14 @@ The dataset failed 1 validation check(s). Failed checks: not_null_columns. These
 - Consider adding stricter checks to the ingestion pipeline.
 
 | id | 0 |
-| name | 0 |
-| age | 1 |
-| city | 0 |
-| email | 0 |
+| name | 79 |
+| age | 100 |
+| city | 64 |
+| email | 145 |
+| signup_date | 0 |
+| customer_segment | 0 |
+| monthly_spend | 0 |
+| is_active | 0 |
 
 ## Null counts chart
 
@@ -56,4 +61,4 @@ The dataset failed 1 validation check(s). Failed checks: not_null_columns. These
 | Check | Status | Details |
 |---|---|---|
 | required_columns | passed ✅ |  |
-| not_null_columns | failed ❌ | age (1 nulls) |
+| not_null_columns | failed ❌ | name (79 nulls), email (145 nulls) |
