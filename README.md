@@ -1,73 +1,57 @@
 # Data Sentinel AI
 
-Data Sentinel AI is a Python-based data quality and reporting project focused on profiling datasets, validating configurable rules, generating human-readable reports, and preparing a foundation for AI-assisted data quality insights.
+Data Sentinel AI is a Python data quality reporting tool for profiling CSV datasets, validating configurable rules, and generating human-readable reports with optional AI-assisted summaries.
 
-The project is designed as a portfolio project for data engineering, data science, and AI-agent-oriented workflows.
+The project is built as a portfolio project focused on data engineering, data quality, reporting, testing, and practical AI integration.
 
-## Project goal
+## Features
 
-The goal of this project is to build a small but realistic data quality pipeline that can:
+- CSV data loading
+- JSON-based validation configuration
+- Dataset profiling:
+  - row and column counts
+  - column names
+  - null counts
+  - duplicate row count
+  - detected data types
+- Data quality validation:
+  - required columns
+  - not-null columns
+- Quality score calculation
+- Rule-based insights
+- Optional LLM summary provider:
+  - Gemini
+  - OpenAI-ready structure
+  - rule-based fallback when no provider is configured
+- Report generation:
+  - JSON
+  - Markdown
+  - HTML
+  - PDF
+- Null-count chart generation
+- Automated tests with pytest
+- GitHub Actions CI pipeline
 
-* load tabular data from a CSV file,
-* generate a dataset profile,
-* validate data quality rules from a configuration file,
-* calculate an overall quality score,
-* generate rule-based insights,
-* create JSON, Markdown, and HTML reports,
-* generate charts for selected data quality metrics,
-* provide a foundation for a future LLM-powered AI summary agent.
-
-## Current features
-
-* CSV data loading
-* JSON-based dataset schema configuration
-* Data profiling:
-
-  * row count
-  * column count
-  * column names
-  * null counts per column
-  * duplicate row count
-  * detected data types
-* Data validation:
-
-  * required columns check
-  * not-null columns check
-* Validation summary:
-
-  * overall status
-  * total checks
-  * passed checks
-  * failed checks
-  * failed check names
-  * quality score
-* Rule-based insights summary
-* AI-style summary layer
-* Markdown report generation
-* HTML report generation
-* Null-count chart generation
-* Unit tests with pytest
-
-## Pipeline overview
+## Pipeline
 
 ```text
-CSV input
-   ↓
+CSV + JSON config
+        ↓
 Load dataset
-   ↓
-Profile dataframe
-   ↓
-Validate configured rules
-   ↓
-Calculate summary and quality score
-   ↓
+        ↓
+Profile data
+        ↓
+Validate rules
+        ↓
+Calculate quality score
+        ↓
 Generate insights
-   ↓
-Generate AI-style summary
-   ↓
-Generate charts
-   ↓
-Export JSON, Markdown and HTML reports
+        ↓
+Generate AI summary
+        ↓
+Create charts
+        ↓
+Export JSON / Markdown / HTML / PDF reports
 ```
 
 ## Project structure
@@ -81,48 +65,33 @@ data-sentinel-ai/
 │       └── customers.csv
 ├── examples/
 │   └── reports/
-│       ├── sample_profile_report.json
-│       ├── sample_profile_report.md
-│       ├── sample_profile_report.html
-│       └── charts/
-│           └── null_counts.png
-├── reports/
 ├── src/
 │   └── data_sentinel/
-│       ├── agents.py
-│       ├── charts.py
-│       ├── config.py
-│       ├── insights.py
-│       ├── loaders.py
-│       ├── main.py
-│       ├── profiling.py
-│       ├── renderers.py
-│       ├── reporting.py
-│       ├── validation.py
-│       └── templates/
-│           └── report.html
 ├── tests/
+├── .github/
+│   └── workflows/
 ├── pyproject.toml
 ├── requirements.txt
+├── .env.example
 └── README.md
 ```
 
 ## Configuration
 
-Validation rules are defined in a JSON schema file.
+Validation rules are defined in a JSON file.
 
 Example:
 
 ```json
 {
-    "dataset_name": "customers",
-    "input_file": "data/sample/customers.csv",
-    "required_columns": ["id", "name", "age", "city", "email"],
-    "not_null_columns": ["id", "name", "email"]
+  "dataset_name": "customers",
+  "input_file": "data/sample/customers.csv",
+  "required_columns": ["id", "name", "age", "city", "email"],
+  "not_null_columns": ["id", "name", "email"]
 }
 ```
 
-The configuration controls which columns must exist and which columns are not allowed to contain null values.
+The configuration controls which columns must exist in the dataset and which columns are not allowed to contain null values.
 
 ## Installation
 
@@ -133,13 +102,13 @@ git clone <repository-url>
 cd data-sentinel-ai
 ```
 
-Create and activate a virtual environment:
+Create a virtual environment:
 
 ```bash
 python -m venv .venv
 ```
 
-Windows PowerShell:
+Activate it on Windows PowerShell:
 
 ```powershell
 .venv\Scripts\Activate.ps1
@@ -149,12 +118,13 @@ Install dependencies:
 
 ```bash
 pip install -r requirements.txt
+pip install -e .
 ```
 
-Install the project in editable mode:
+Install Playwright browser support for PDF export:
 
 ```bash
-pip install -e .
+python -m playwright install chromium
 ```
 
 ## Running the project
@@ -165,16 +135,47 @@ Run the pipeline:
 python -m data_sentinel.main
 ```
 
-The generated reports will be saved into the `reports/` directory:
+Generated reports are saved into the `reports/` directory:
 
 ```text
 reports/
 ├── profile_report.json
 ├── profile_report.md
 ├── profile_report.html
+├── profile_report.pdf
 └── charts/
     └── null_counts.png
 ```
+
+## Optional AI summary
+
+The project supports optional LLM-generated summaries.
+
+Create a local `.env` file based on `.env.example`:
+
+```env
+LLM_PROVIDER=none
+
+# Gemini
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-2.5-flash-lite
+
+# OpenAI
+OPENAI_API_KEY=your_openai_api_key_here
+OPENAI_MODEL=gpt-5-mini
+```
+
+Supported provider values:
+
+```text
+none
+gemini
+openai
+```
+
+When no LLM provider is configured, the project automatically falls back to a deterministic rule-based summary.
+
+This means the project can run without any API key.
 
 ## Running tests
 
@@ -186,20 +187,21 @@ pytest
 
 The test suite covers:
 
-* CSV loading
-* configuration loading
-* dataframe profiling
-* validation checks
-* validation summary and quality score
-* insights generation
-* AI-style summary generation
-* Markdown report rendering
-* HTML report rendering
-* chart file generation
+- CSV loading
+- configuration loading
+- dataframe profiling
+- validation checks
+- validation summary and quality score
+- insights generation
+- AI summary fallback behavior
+- Markdown report rendering
+- HTML report rendering
+- chart file generation
+- PDF export
 
 ## Example outputs
 
-Curated sample outputs are available in:
+Sample reports are available in:
 
 ```text
 examples/reports/
@@ -207,51 +209,48 @@ examples/reports/
 
 Included examples:
 
-* `sample_profile_report.json`
-* `sample_profile_report.md`
-* `sample_profile_report.html`
-* `charts/null_counts.png`
+- `sample_profile_report.json`
+- `sample_profile_report.md`
+- `sample_profile_report.html`
+- `sample_profile_report.pdf`
+- `charts/null_counts.png`
 
 The JSON report is intended for machines and downstream processing.
-The Markdown and HTML reports are intended for human-readable data quality review.
 
-## AI summary layer
+The Markdown, HTML, and PDF reports are intended for human-readable data quality review.
 
-The current AI summary layer is rule-based and deterministic. It generates a human-readable summary and recommendations based on validation results and generated insights.
+## CI
 
-This design prepares the project for future integration with an LLM provider, while keeping the project fully runnable without an API key.
+GitHub Actions runs the test suite automatically on push and pull request events.
 
-## Roadmap
-
-Planned improvements:
-
-* Add support for multiple datasets
-* Add more validation rules:
-
-  * duplicate checks by selected columns
-  * accepted value ranges
-  * regex-based email validation
-  * numeric range validation
-  * date format validation
-* Add historical report comparison
-* Add LLM-powered summary generation
-* Add PDF export
-* Add Streamlit dashboard
-* Add Docker support
-* Add GitHub Actions CI pipeline
+The CI pipeline installs dependencies, prepares the project, installs Playwright browser support, and runs `pytest`.
 
 ## Tech stack
 
-* Python
-* pandas
-* matplotlib
-* Jinja2
-* pytest
-* JSON configuration
-* Markdown and HTML reporting
+- Python
+- pandas
+- matplotlib
+- Jinja2
+- pytest
+- Playwright
+- Gemini / OpenAI provider structure
+- GitHub Actions
+
+## Roadmap
+
+Possible future improvements:
+
+- support multiple input datasets
+- add more validation rules
+- add historical report comparison
+- add CLI arguments for config and output paths
+- add database input support
+- add dashboard view
 
 ## Why this project matters
 
-Data quality is a critical part of data engineering and analytics workflows. This project demonstrates how raw data can be loaded, profiled, validated, summarized, and transformed into reports that are useful for both technical and non-technical users.
+Data quality is a key part of reliable data engineering and analytics workflows.
 
-The project is intentionally built step by step, with clean modules and tests, so it can grow into a more advanced data quality monitoring tool with AI-assisted explanations.
+This project demonstrates how raw data can be loaded, profiled, validated, summarized, and exported into reports that are useful for both technical and non-technical users.
+
+It also demonstrates a practical AI integration pattern: LLM-generated summaries are supported, but the project remains fully usable through a deterministic fallback when no external provider is configured.
