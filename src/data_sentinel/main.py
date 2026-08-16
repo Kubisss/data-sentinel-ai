@@ -17,7 +17,7 @@ from data_sentinel.pdf import render_pdf_report
 
 
 def main():
-    schema = load_json_config("config/customers_schema.json")
+    schema = load_json_config("config/customers_large_schema.json")
 
     input_file = schema["input_file"]
     output_file = "reports/profile_report.json"

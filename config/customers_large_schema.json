@@ -1,0 +1,6 @@
+{
+  "dataset_name": "large_dirty_customers",
+  "input_file": "data/sample/customers_large_dirty.csv",
+  "required_columns": ["id", "name", "age", "city", "email"],
+  "not_null_columns": ["id", "name", "email"]
+}
